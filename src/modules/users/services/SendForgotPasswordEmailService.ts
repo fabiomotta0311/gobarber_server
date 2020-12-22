@@ -1,35 +1,25 @@
-import User from '@modules/users/infra/typeorm/entities/Users';
-import AppError from '@shared/errors/AppErrors';
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import { injectable, inject } from 'tsyringe';
+
+// import AppError from '@shared/errors/AppErrors';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+
+// import User from '@modules/users/infra/typeorm/entities/Users';
+
 
 interface IRequest {
   email: string;
 }
+
 @injectable()
 class SendForgotPasswordEmailService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-  ) {}
+  ) { }
 
-  public async execute({ email }: IRequest): Promise<User> {
-    const checkUserExists = await this.usersRepository.findByEmail(email);
+  public async execute(data: IRequest): Promise<void> {
 
-    if (checkUserExists) {
-      throw new AppError('Email address already used.');
-    }
-
-    const hashedPassword = await this.hashProvider.generateHash(password);
-
-    const user = this.usersRepository.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
-    return user;
   }
 }
 
