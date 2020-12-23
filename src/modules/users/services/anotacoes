@@ -1,0 +1,6 @@
+1 - Rotas e Controllers
+2 - Repositório de tokens (typeORM)
+3 - Criar migration de tokens
+4 - Provider de envio de email dev
+5 - Registrar providers no container
+6 - Testar tudo!
