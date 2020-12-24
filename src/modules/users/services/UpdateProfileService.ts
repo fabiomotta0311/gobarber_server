@@ -63,6 +63,7 @@ class UpdateProfileService {
 
       user.password = await this.hashProvider.generateHash(password);
     }
+
     return this.usersRepository.save(user);
   }
 }
