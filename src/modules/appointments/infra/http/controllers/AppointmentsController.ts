@@ -19,4 +19,4 @@ export default class AppointmentsController {
 
     return response.json(appointment);
   }
-} 
+}
