@@ -1,13 +1,10 @@
+import { injectable, inject } from 'tsyringe';
+
+import AppError from '@shared/errors/AppErrors';
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
-/* eslint-disable camelcase */
-import path from 'path';
-import fs from 'fs';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import User from '@modules/users/infra/typeorm/entities/Users';
-import AppError from '@shared/errors/AppErrors';
-import uploadConfig from '@config/upload';
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import { injectable, inject } from 'tsyringe';
 
 interface IRequest {
   user_id: string;
