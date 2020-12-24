@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Not, Repository } from 'typeorm';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
@@ -23,6 +23,18 @@ class UsersRepository implements IUsersRepository {
       where: { email },
     });
     return user;
+  }
+
+  public async findAllProviders(except_user_id?: string): Promise<User[]> {
+    let users: User[];
+
+    if (except_user_id) {
+      users = await this.ormRepository.find({ where: Not(except_user_id) });
+    } else {
+      users = await this.ormRepository.find();
+    }
+
+    return users;
   }
 
   public async create(userData: ICreateUserDTO): Promise<User> {
