@@ -2,8 +2,6 @@ import IAppointmentsRepository from '@modules/appointments/repositories/IAppoint
 import { getDate, getDaysInMonth } from 'date-fns';
 import { injectable, inject } from 'tsyringe';
 
-// import User from '@modules/users/infra/typeorm/entities/Users';
-
 interface IRequest {
   provider_id: string;
   month: number;
@@ -16,7 +14,7 @@ type IResponse = Array<{
 }>;
 
 @injectable()
-class ListProviderMonthAailabilityService {
+class ListProviderMonthAvailabilityService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
@@ -59,4 +57,4 @@ class ListProviderMonthAailabilityService {
   }
 }
 
-export default ListProviderMonthAailabilityService;
+export default ListProviderMonthAvailabilityService;
