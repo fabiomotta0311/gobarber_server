@@ -1,47 +1,50 @@
 import FakeAppointmentRepository from '@modules/appointments/repositories/fakes/FakeAppointmentRepository';
 
-import ListProviderMonthAvailabilityService from '@modules/appointments/services/ListProviderMonthAvailabilityService';
+import ListProviderDayAvailabilityService from '@modules/appointments/services/ListProviderDayAvailabilityService';
 
-let listProviderMonthAvailability: ListProviderMonthAvailabilityService;
+let listProviderDayAvailability: ListProviderDayAvailabilityService;
 
 let fakeAppointmentRepository: FakeAppointmentRepository;
 
-describe('ListProviderMonthAvailability', () => {
+describe('ListProviderDayAvailability', () => {
   beforeEach(() => {
     fakeAppointmentRepository = new FakeAppointmentRepository();
-    listProviderMonthAvailability = new ListProviderMonthAvailabilityService(
+    listProviderDayAvailability = new ListProviderDayAvailabilityService(
       fakeAppointmentRepository,
     );
   });
-  it('should be able to list the month availability from providers', async () => {
+  it('should be able to list the day availability from providers', async () => {
     await fakeAppointmentRepository.create({
       provider_id: 'user',
-      date: new Date(2020, 4, 20, 8, 0, 0),
+      date: new Date(2020, 4, 20, 14, 0, 0),
     });
 
     await fakeAppointmentRepository.create({
       provider_id: 'user',
-      date: new Date(2020, 4, 20, 10, 0, 0),
+      date: new Date(2020, 4, 20, 15, 0, 0),
     });
 
-    await fakeAppointmentRepository.create({
-      provider_id: 'user',
-      date: new Date(2020, 4, 21, 8, 0, 0),
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+      return new Date(2020, 4, 20, 11).getTime();
     });
 
-    const availability = await listProviderMonthAvailability.execute({
+    const availability = await listProviderDayAvailability.execute({
       provider_id: 'user',
       year: 2020,
       month: 5,
+      day: 20,
     });
 
-    expect(availability).toEqual([
+    expect(availability).toEqual(
       expect.arrayContaining([
-        { day: 19, available: true },
-        { day: 20, available: false },
-        { day: 21, available: false },
-        { day: 22, available: true },
+        { hour: 8, available: false },
+        { hour: 9, available: false },
+        { hour: 10, available: false },
+        { hour: 13, available: true },
+        { hour: 14, available: false },
+        { hour: 15, available: false },
+        { hour: 16, available: true },
       ]),
-    ]);
+    );
   });
 });
